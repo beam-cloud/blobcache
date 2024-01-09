@@ -14,7 +14,7 @@ RUN go mod download && go mod verify
 COPY . .
 
 ENV GIN_MODE=release
-RUN go build -v -o /usr/local/bin/cache /workspace/main.go
+RUN go build -v -o /usr/local/bin/cache /workspace/cmd/main.go
 
 CMD ["cache"]
 
