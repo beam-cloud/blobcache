@@ -1,5 +1,8 @@
+imageVersion := latest
+
 protocol:
 	cd proto && ./gen.sh
 
 build:
-	okteto build --file ./Dockerfile --tag okteto.dev/blobcache:latest --target build
+	docker build . -f Dockerfile -t localhost:5000/beam-blobcache:$(imageVersion)
+	docker push localhost:5000/beam-blobcache:latest

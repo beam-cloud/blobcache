@@ -7,7 +7,6 @@ WORKDIR /workspace
 
 RUN go install github.com/cosmtrek/air@latest
 
-# github token required to clone private repos
 COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
