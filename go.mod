@@ -1,4 +1,4 @@
-module cache
+module github.com/beam-cloud/blobcache
 
 go 1.20
 

@@ -14,14 +14,14 @@ RUN go mod download && go mod verify
 COPY . .
 
 ENV GIN_MODE=release
-RUN go build -v -o /usr/local/bin/cache /workspace/cmd/main.go
+RUN go build -v -o /usr/local/bin/blobcache /workspace/cmd/main.go
 
-CMD ["cache"]
+CMD ["blobcache"]
 
 
 # used for production release
 FROM base AS release
 
-COPY --from=build /usr/local/bin/cache /usr/local/bin/
+COPY --from=build /usr/local/bin/blobcache /usr/local/bin/
 
-CMD ["cache"]
+CMD ["blobcache"]

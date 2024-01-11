@@ -1,4 +1,4 @@
-package cache
+package blobcache
 
 import (
 	"crypto/sha256"

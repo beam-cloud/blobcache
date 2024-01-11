@@ -1,15 +1,16 @@
 package main
 
 import (
-	cache "cache/pkg"
 	"log"
+
+	blobcache "github.com/beam-cloud/blobcache/pkg"
 )
 
 func main() {
-	s, err := cache.NewCacheService(cache.CacheServiceConfig.PersistencePath, cache.CacheServiceConfig.CacheSize, cache.CacheServiceConfig.PageSize)
+	s, err := blobcache.NewCacheService(blobcache.BlobCacheServiceConfig.PersistencePath, blobcache.BlobCacheServiceConfig.CacheSize, blobcache.BlobCacheServiceConfig.PageSize)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	s.StartServer(cache.CacheServiceConfig.Address)
+	s.StartServer(blobcache.BlobCacheServiceConfig.Address)
 }

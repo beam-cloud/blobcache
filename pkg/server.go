@@ -1,4 +1,4 @@
-package cache
+package blobcache
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	proto "cache/proto"
+	proto "github.com/beam-cloud/blobcache/proto"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -22,7 +22,7 @@ type CacheServiceOpts struct {
 }
 
 type CacheService struct {
-	proto.UnimplementedCacheServer
+	proto.UnimplementedBlobCacheServer
 	cas *ContentAddressableStorage
 }
 
@@ -45,7 +45,7 @@ func (cs *CacheService) GetContent(ctx context.Context, req *proto.GetContentReq
 	return &proto.GetContentResponse{Content: content}, nil
 }
 
-func (cs *CacheService) StoreContent(stream proto.Cache_StoreContentServer) error {
+func (cs *CacheService) StoreContent(stream proto.BlobCache_StoreContentServer) error {
 	var content []byte
 
 	for {
@@ -81,7 +81,7 @@ func (cs *CacheService) StartServer(addr string) error {
 		grpc.MaxSendMsgSize(maxMessageSize),
 	)
 
-	proto.RegisterCacheServer(s, cs)
+	proto.RegisterBlobCacheServer(s, cs)
 	reflection.Register(s)
 
 	log.Println("started cache service @", addr)
