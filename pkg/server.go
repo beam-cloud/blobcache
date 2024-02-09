@@ -13,7 +13,6 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 )
 
@@ -80,9 +79,7 @@ func (cs *CacheService) StartServer(addr string) error {
 		grpc.MaxRecvMsgSize(maxMessageSize),
 		grpc.MaxSendMsgSize(maxMessageSize),
 	)
-
 	proto.RegisterBlobCacheServer(s, cs)
-	reflection.Register(s)
 
 	log.Println("started cache service @", addr)
 	go s.Serve(listener)
@@ -96,6 +93,7 @@ func (cs *CacheService) StartServer(addr string) error {
 	log.Println("Termination signal received. Shutting down...")
 
 	// Close in-memory cache
+	s.GracefulStop()
 	cs.cas.inMemory.Close()
 	return nil
 }
