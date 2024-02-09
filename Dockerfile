@@ -1,7 +1,6 @@
-FROM --platform=linux/amd64 golang:1.19 as base
+# syntax=docker/dockerfile:1.6
 
-# used for compiling a build and doing local development
-FROM base as build
+FROM golang:1.22-bookworm AS build
 
 WORKDIR /workspace
 
@@ -12,15 +11,14 @@ RUN go mod download && go mod verify
 
 COPY . .
 
-ENV GIN_MODE=release
-RUN go build -v -o /usr/local/bin/blobcache /workspace/cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux \
+    go build -o blobcache /workspace/cmd/main.go
 
 CMD ["blobcache"]
 
 
-# used for production release
-FROM base AS release
+FROM gcr.io/distroless/static-debian12 AS release
 
-COPY --from=build /usr/local/bin/blobcache /usr/local/bin/
+COPY --from=build /workspace/blobcache /usr/local/bin/
 
 CMD ["blobcache"]
