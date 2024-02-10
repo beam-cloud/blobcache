@@ -5,8 +5,8 @@ global:
   fullnameOverride:
 
 image:
-  repository: registry.localhost:5000/beam-blobcache
-  tag:
+  repository: public.ecr.aws/n4e0e1y0/beam-blobcache
+  tag: 0.1.0
 
 controllers:
   main:
