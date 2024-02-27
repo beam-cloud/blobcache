@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "blobcache"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+grpclib = "^0.4.7"
+grpcio = "^1.62.0"
+rich = "^13.7.0"
+betterproto = "2.0.0b6"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
