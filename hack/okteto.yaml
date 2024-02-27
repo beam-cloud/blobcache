@@ -2,6 +2,7 @@ dev:
   blobcache:
     image: registry.localhost:5000/beam-blobcache:latest
     command: ["/workspace/bin/hotreload.sh"]
+    workdir: /workspace
     sync:
       - ../:/workspace
     environment:
