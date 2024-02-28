@@ -19,20 +19,11 @@ RUN go build -v -o /usr/local/bin/blobcache /workspace/cmd/main.go
 CMD ["blobcache"]
 
 # used for production release
-FROM base AS release
+FROM ubuntu:22.04 AS release
 
-RUN apt-get update && apt-get install -y wget git curl \
-    libseccomp-dev libsndfile1 libsndfile1-dev \
-    libaio-dev libzmq3-dev iptables \
-    build-essential git libprotobuf-dev libprotobuf-c-dev \
-    protobuf-c-compiler protobuf-compiler \
-    pkg-config libbsd-dev iproute2 \
-    libnftnl-dev libcap-dev libnet1-dev libnl-3-dev
+COPY --from=golang:1.22 /usr/local/go/ /usr/local/go/
 
-# Build & install criu
-RUN git clone https://github.com/checkpoint-restore/criu.git
-RUN cd criu && make criu && make install-criu
-
+RUN apt-get update && apt-get install -y wget git curl criu
 COPY --from=build /usr/local/bin/blobcache /usr/local/bin/
 
 ENV PATH "$PATH:/usr/local/sbin"
