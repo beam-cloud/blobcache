@@ -6,7 +6,7 @@ dev:
     sync:
       - ../:/workspace
     environment:
-      PATH: ${PATH}:/workspace/bin
+      PATH: ${PATH}:/usr/local/sbin:/workspace/bin
       DEFAULT_NAMESPACE: ${OKTETO_NAMESPACE}
       BUILD_COMMAND: "go build -o /workspace/bin/blobcache /workspace/cmd/main.go"
       BUILD_BINARY_PATH: "/workspace/bin/blobcache"

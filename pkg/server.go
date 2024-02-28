@@ -54,7 +54,6 @@ func (cs *CacheService) StoreContent(stream proto.BlobCache_StoreContentServer) 
 			break
 		}
 
-		log.Println("req: ", req)
 		if err != nil {
 			return status.Errorf(codes.Unknown, "Received an error: %v", err)
 		}
@@ -62,7 +61,6 @@ func (cs *CacheService) StoreContent(stream proto.BlobCache_StoreContentServer) 
 		content = append(content, req.Content...)
 	}
 
-	log.Println("content: ", content)
 	hash, err := cs.cas.Add(content)
 	if err != nil {
 		return status.Errorf(codes.Internal, "Failed to add content: %v", err)
