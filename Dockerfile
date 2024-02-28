@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 golang:1.22 as base
+FROM golang:1.22 as base
 
 # used for compiling a build and doing local development
 FROM base as build
@@ -23,9 +23,11 @@ FROM ubuntu:22.04 AS release
 
 COPY --from=golang:1.22 /usr/local/go/ /usr/local/go/
 
-RUN apt-get update && apt-get install -y wget git curl criu
+RUN apt-get update && apt-get install -y software-properties-common
+RUN add-apt-repository ppa:criu/ppa
+RUN apt-get update && apt-get install -y wget git curl criu=3.19-1ppa1.22.04
 COPY --from=build /usr/local/bin/blobcache /usr/local/bin/
 
-ENV PATH "$PATH:/usr/local/sbin"
+ENV PATH "$PATH:/usr/sbin"
 
 CMD ["blobcache"]
